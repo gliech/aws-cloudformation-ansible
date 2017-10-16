@@ -1,0 +1,52 @@
+---
+- hosts: "security_group_{{ aws_secgrp }}:&~tag_aws_cloudformation_stack_name_{{ aws_stack }}.*"
+  gather_facts: no
+  vars_files:
+    - ../cloudformation_vars.yml
+    - vars/bastion.yml
+  tasks:
+    - name: Bastion User anlegen
+      user:
+        name: "{{ bastion_user_name }}"
+        state: present
+        home: /home/bastion-user
+        createhome: yes
+        shell: /bin/bash
+      become: yes
+
+    - name: Passwortloses sudo für den Bastion User erlauben
+      template:
+        src: "templates/bastion_sudoer.j2"
+        dest: "/etc/sudoers.d/90_bastion
+        owner: root
+        group: root
+        mode: 0440
+        validate: "/usr/sbin/visudo -cf %s"
+      become: yes
+
+    - block:
+      - name: Erzeuge eine temporäre Datei auf localhost
+        tempfile:
+          state: file
+        register: admin_keys_file
+        changed_when: False
+
+      - name: Füge die Public Keys aller Admins dort zusammen
+        assemble:
+          src: files/admin-keys
+          regexp: '.*\.pub'
+          dest: "{{ admin_keys_file.path }}"
+          validate: 'ssh-keygen -lf %s'
+        changed_when: False
+      run_once: True
+      delegate_to: localhost
+
+    - name: Füge die Keys zur SSH Config des Bastion Users hinzu
+      authorized_key:
+        user: "{{ bastion_user_name }}"
+        key: "{{ lookup( 'file', admin_keys_file.path ) }}"
+        exclusive: yes
+        state: present
+      become: yes
+      become_user: "{{ bastion_user_name }}"
+
