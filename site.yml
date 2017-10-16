@@ -1,0 +1,9 @@
+---
+- hosts: "security_group_{{aws_secgrp}}:&~tag_aws_cloudformation_stack_name_{{aws_stack}}.*"
+    gather_facts: no
+    vars_files:
+      - ../cloudformation_vars.yml
+    tasks:
+      - name: Pinging all hosts
+        ping:
+
