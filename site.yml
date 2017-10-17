@@ -1,5 +1,9 @@
 ---
-- hosts: "security_group_{{ aws_mgmt_ansible_secgrp.GroupName|replace('-', '_') }}:&~tag_aws_cloudformation_stack_name_{{ aws_mgmt_stack }}.*"
+- name: Bastion Clients
+  hosts: "\
+    ~tag_aws_cloudformation_stack_name_{{ aws_mgmt_stack }}.*:&\
+    security_group_{{ aws_mgmt_ansible_secgrp.GroupName|replace('-', '_') }}:&\
+    security_group_{{ aws_mgmt_bastion_secgrp.GroupName|replace('-', '_') }}"
   vars_files:
     - ../aws_cloudformation.yml
     - vars/aws_lookups.yml
