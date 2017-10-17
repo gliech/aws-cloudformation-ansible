@@ -1,0 +1,8 @@
+---
+- name: Allow Access to the ansible user only from the local network
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    line: "AllowUser {{ansible_user}}@{{aws_bastion_range}}"
+  become: yes
+
