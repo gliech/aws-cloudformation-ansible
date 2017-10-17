@@ -19,4 +19,5 @@
     - ../aws_cloudformation.yml
     - vars/aws_lookups.yml
   roles:
-    - bastion-host
+    - role: bastion-host
+      ip_range: "{{ aws_bastion_range }}"
