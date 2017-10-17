@@ -1,0 +1,2 @@
+---
+aws_mgmt_secgrp: "{{ lookup('pipe', 'aws ec2 describe-security-groups --region' + aws_region + '--group-ids' + aws_mgmt_secgrp_id) }}" 
