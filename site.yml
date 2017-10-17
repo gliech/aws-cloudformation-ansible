@@ -1,5 +1,5 @@
 ---
-- hosts: "security_group_{{ aws_secgrp.SecurityGroups[0].GroupName|replace('-', '_') }}:&~tag_aws_cloudformation_stack_name_{{ aws_stack }}.*"
+- hosts: "security_group_{{ aws_mgmt_secgrp.SecurityGroups[0].GroupName|replace('-', '_') }}:&~tag_aws_cloudformation_stack_name_{{ aws_mgmt_stack }}.*"
   gather_facts: no
   vars_files:
     - ../aws_cloudformation.yml
