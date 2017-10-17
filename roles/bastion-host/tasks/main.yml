@@ -3,6 +3,6 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     state: present
-    line: "AllowUser {{ansible_user}}@{{ip_range}}"
+    line: "AllowUsers {{ansible_user}}@{{ip_range}}"
   become: yes
   notify: restart sshd
