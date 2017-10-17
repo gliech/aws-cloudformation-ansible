@@ -5,4 +5,4 @@
     state: present
     line: "AllowUser {{ansible_user}}@{{aws_bastion_range}}"
   become: yes
-
+  notify: restart sshd
