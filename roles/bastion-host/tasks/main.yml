@@ -6,3 +6,11 @@
     line: "AllowUsers {{ansible_user}}@{{ip_range}}"
   become: yes
   notify: restart sshd
+
+- name: Allow Access to the bastion user from everywhere
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    line: "AllowUsers {{bastion_user_name}}@0.0.0.0/0"
+  become: yes
+  notify: restart sshd
