@@ -21,3 +21,15 @@
   roles:
     - role: bastion-host
       ip_range: "{{ aws_bastion_range }}"
+
+- name: Wordpress Server
+  hosts: "\
+    ~tag_aws_cloudformation_stack_name_{{ aws_mgmt_stack }}.*:&\
+    security_group_{{ aws_mgmt_ansible_secgrp.GroupName|replace('-', '_') }}:&\
+    tag_aws_cloudformation_logical_id_WPWebAutoScalingGroup"
+  vars_files:
+    - ../aws_cloudformation.yml
+    - vars/aws_lookups.yml
+  roles:
+    - role: wordpress-server
+
