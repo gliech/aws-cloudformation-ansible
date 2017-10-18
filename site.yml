@@ -32,4 +32,8 @@
     - vars/aws_lookups.yml
   roles:
     - role: wordpress-server
+      db_name: "{{aws_db_credentials.name}}"
+      db_user: "{{aws_db_credentials.user}}"
+      db_pass: "{{aws_db_credentials.pass}}"
+      db_host: "{{aws_db_credentials.host}}"
 
