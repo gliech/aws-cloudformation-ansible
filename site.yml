@@ -36,4 +36,5 @@
       db_user: "{{aws_web_db_credentials.user}}"
       db_pass: "{{aws_web_db_credentials.pass}}"
       db_host: "{{aws_web_db_credentials.host}}"
+      http_port: "{{aws_web_port}}"
 

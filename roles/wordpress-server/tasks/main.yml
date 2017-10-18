@@ -9,6 +9,15 @@
     - mysql56-server
     - php70-mysqlnd
   become: yes
+
+- mame: Adjust the listening port of the appache
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: "Listen {{http_port}}"
+    regexp: ^Listen \d+
+    state: present
+  become: yes
+  notify: restart httpd
   
 - name: Enable httpd
   service: 
