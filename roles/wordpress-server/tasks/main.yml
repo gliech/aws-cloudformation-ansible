@@ -22,3 +22,7 @@
     src: https://wordpress.org/latest.tar.gz
     dest: /var/www/html/wordpress
     remote_src: yes
+    owner: apache
+    group: apache
+    extra:_opts: --level=1
+  become: yes
