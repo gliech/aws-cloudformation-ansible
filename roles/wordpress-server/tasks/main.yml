@@ -20,7 +20,7 @@
 - name: Copy the latest version of Wordpress to the server.
   unarchive:
     src: https://wordpress.org/latest.tar.gz
-    dest: /var/www/html/wordpress
+    dest: /var/www/html
     remote_src: yes
     owner: apache
     group: apache
