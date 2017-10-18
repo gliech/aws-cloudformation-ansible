@@ -30,6 +30,7 @@
 - name: Get salts for the wordpress configuration file
   uri:
     url: https://api.wordpress.org/secret-key/1.1/salt/
+    return_content: yes
   register: salt
   delegate_to: localhost
   run_once: yes
@@ -37,7 +38,7 @@
 - name: Pupulate the Wordpress configuration file
   template:
     src: wp-config.php.j2
-    dest: /var/www/html/wp-config.php.j2
+    dest: /var/www/html/wp-config.php
     owner: apache
     group: apache
   become: yes
