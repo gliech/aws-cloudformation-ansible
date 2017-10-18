@@ -27,15 +27,18 @@
     extra_opts: --strip-components=1
   become: yes
 
- - name: Get salts for the wordpress configuration file
-   uri:
-     url: https://api.wordpress.org/secret-key/1.1/salt/
-   register: salt
-   delegate_to: localhost
-   run_once: yes
+- name: Get salts for the wordpress configuration file
+  uri:
+    url: https://api.wordpress.org/secret-key/1.1/salt/
+  register: salt
+  delegate_to: localhost
+  run_once: yes
 
- - name: Pupulate the Wordpress configuration file
-   temlate:
-     src: wp-config.php.j2
-     dest: /var/www/html/wp-config.php.j2
+- name: Pupulate the Wordpress configuration file
+  template:
+    src: wp-config.php.j2
+    dest: /var/www/html/wp-config.php.j2
+    owner: apache
+    group: apache
+  become: yes
 
